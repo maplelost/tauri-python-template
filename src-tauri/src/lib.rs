@@ -7,12 +7,15 @@ fn greet(name: &str) -> String {
 // 提取sidecar启动逻辑到单独的函数
 async fn start_sidecar(app: tauri::AppHandle) -> Result<String, String> {
     // 假设sidecar名称为"main"，您需要根据实际配置调整这个名称
-    let sidecar = app.shell().sidecar("main")
+    let sidecar = app
+        .shell()
+        .sidecar("main")
         .map_err(|e| format!("无法找到sidecar: {}", e))?;
-    
-    let (_rx, _child) = sidecar.spawn()
+
+    let (_rx, _child) = sidecar
+        .spawn()
         .map_err(|e| format!("无法启动sidecar: {}", e))?;
-    
+
     Ok("Sidecar已启动".to_string())
 }
 
@@ -22,8 +25,8 @@ async fn run_sidecar(app: tauri::AppHandle) -> Result<String, String> {
     start_sidecar(app).await
 }
 
-use tauri_plugin_shell::ShellExt;
 use tauri_plugin_shell::process::CommandEvent;
+use tauri_plugin_shell::ShellExt;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
