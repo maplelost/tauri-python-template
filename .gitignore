@@ -1,3 +1,4 @@
+*.exe
 src-tauri/Cargo.lock
 
 # tauri
